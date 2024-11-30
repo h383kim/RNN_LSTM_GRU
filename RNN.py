@@ -25,7 +25,7 @@ class RNN(nn.Module):
             for i in range(self.num_layers)
         ])
 
-        self.W_t = nn.Linear(self.hidden_ch, out_ch)
+        self.W_y = nn.Linear(self.hidden_ch, out_ch)
         
     def forward(self, x, hidden=None):
         '''
@@ -48,7 +48,7 @@ class RNN(nn.Module):
                 h_t[layer] = self.cells[layer](x_t if layer == 0 else h_t[layer - 1])
             # h_t[-1]: [batch_size, hidden_ch]
             # output: [batch_size, out_ch]
-            output = self.W_t(h_t[-1])
+            output = self.W_y(h_t[-1])
             y_t.append(output)
 
         output_final = torch.stack(y_t, dim=1)
